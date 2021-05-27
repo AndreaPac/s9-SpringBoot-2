@@ -13,13 +13,13 @@ import lombok.Data;
 @Data
 @Entity
 public class Citta {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String nome;
-	
-	@OneToMany(mappedBy="citta")
+
+	@OneToMany(mappedBy = "citta")
 	private List<Edificio> listaedifici;
-	
+
 }

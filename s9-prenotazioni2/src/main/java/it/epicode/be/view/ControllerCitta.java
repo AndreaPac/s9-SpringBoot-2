@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.WebServerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class ControllerCitta {
 	private CittaService cittaService;
 
 	@GetMapping("/cittaFormatExample")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public Citta cittaFormat() {
 		Citta c = new Citta();
 		c.setId(1l);
@@ -36,6 +38,7 @@ public class ControllerCitta {
 	}
 
 	@GetMapping("/citta/allcitta")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<List<Citta>> citta() {
 		List<Citta> listaCitta = cittaService.getCittaAll();
 		ResponseEntity<List<Citta>> risposta = new ResponseEntity<>(listaCitta, HttpStatus.OK);
@@ -45,6 +48,7 @@ public class ControllerCitta {
 	}
 
 	@GetMapping("/citta/{idCitta}") // riga 39 e 40 stesso identico nome "idCitta"
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Citta> getCittaById(@PathVariable(required = true) long idCitta) {
 		Optional<Citta> cittaOpt = cittaService.getById(idCitta);
 		if (cittaOpt.isPresent()) {
@@ -56,6 +60,7 @@ public class ControllerCitta {
 	}
 
 	@PostMapping("/citta")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Citta> creaCitta(@RequestBody Citta citta) {
 		try {
 			Citta cittaSalvata = cittaService.creaCitta(citta);
@@ -66,6 +71,7 @@ public class ControllerCitta {
 	}
 
 	@DeleteMapping("/citta/{idCitta}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Citta> eliminaCitta(@PathVariable(required = true) long idCitta) {
 		cittaService.deleteCitta(idCitta);
 		return new ResponseEntity<Citta>(HttpStatus.OK);
@@ -73,6 +79,7 @@ public class ControllerCitta {
 	// da finire
 
 	@PutMapping("/citta/{idCitta}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Citta> updateCitta(@PathVariable("idCitta") long idCitta, @RequestBody Citta citta) {
 		try {
 			Citta result = cittaService.updateCitta(idCitta, citta);

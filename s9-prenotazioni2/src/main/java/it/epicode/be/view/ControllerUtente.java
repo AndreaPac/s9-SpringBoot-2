@@ -33,7 +33,7 @@ public class ControllerUtente {
 	public Utente utenteFormat() {
 		Utente u = new Utente();
 		u.setId(1l);
-		u.setUserNomeUtente("Marco");
+		u.setUsername("Marco");
 		u.setNomeCompleto("MarcoAurelio");
 		u.setMailUtente("marcoa@gmail.com");
 		return u;
