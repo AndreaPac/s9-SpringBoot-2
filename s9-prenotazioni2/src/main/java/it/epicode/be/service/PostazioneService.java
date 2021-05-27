@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import it.epicode.be.model.Citta;
 import it.epicode.be.model.Edificio;
 import it.epicode.be.model.Postazione;
+import it.epicode.be.model.Prenotazione;
 import it.epicode.be.model.TipoPostazione;
 
 import it.epicode.be.persistance.EdificioRepository;
@@ -42,5 +43,7 @@ public class PostazioneService {
 		return pr.save(postazione);
 
 	}
+
+	
 
 }

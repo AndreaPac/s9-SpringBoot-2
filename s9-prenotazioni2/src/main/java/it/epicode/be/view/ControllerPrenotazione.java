@@ -21,6 +21,7 @@ import it.epicode.be.model.Edificio;
 import it.epicode.be.model.Postazione;
 import it.epicode.be.model.Prenotazione;
 import it.epicode.be.model.TipoPostazione;
+import it.epicode.be.service.PostazioneService;
 import it.epicode.be.service.PrenotazioneService;
 
 @RestController
@@ -40,7 +41,7 @@ public class ControllerPrenotazione {
 	}
 
 	@GetMapping("/prenotazione/allprenotazione")
-	public ResponseEntity<List<Prenotazione>> postazione() {
+	public ResponseEntity<List<Prenotazione>> GetAllprenotazione() {
 		List<Prenotazione> listaPrenotazione = prenotazioneService.getPrenotazioneServiceAll();
 		ResponseEntity<List<Prenotazione>> risposta = new ResponseEntity<>(listaPrenotazione, HttpStatus.OK);
 
@@ -48,7 +49,7 @@ public class ControllerPrenotazione {
 
 	}
 
-	@GetMapping("/prenotazione/{idprenotazione}") // riga 39 e 40 stesso identico nome "idCitta"
+	@GetMapping("/prenotazione/{idprenotazione}") 
 	public ResponseEntity<Prenotazione> getPrenotazioneById(@PathVariable(required = true) long idprenotazione) {
 		Optional<Prenotazione> prenotazioneOpt = prenotazioneService.getById(idprenotazione);
 		if (prenotazioneOpt.isPresent()) {
@@ -59,38 +60,38 @@ public class ControllerPrenotazione {
 
 	}
 
-//	@PostMapping("/prenotazione")
-//	public ResponseEntity<Prenotazione> creaPrenotazione(@RequestBody Prenotazione idPrenotazione) {
-//		try {
-//			Postazione prenotazioneSalvata = prenotazioneService.prenotaPostazione(null, prenotazioneSalvata, null);
-//			return new ResponseEntity<Prenotazione>(prenotazioneSalvata, HttpStatus.CREATED);
-//		} catch (Exception e) {
-//			throw new WebServerException("Prenotazione not saved", e);
-//		}
-//	}
-//
-//	@DeleteMapping("/prenotazione/{idPrenotazione}")
-//	public ResponseEntity<Prenotazione> eliminaPrenotazione(@PathVariable(required = true) long idPrenotazione) {
-//		prenotazioneService.deletePrenotazione(idPrenotazione);
-//		return new ResponseEntity<Prenotazione>(HttpStatus.OK);
-//	}
-//
-//
-//	@PutMapping("/prenotazione/{idPrenotazione}")
-//	public ResponseEntity<Postazione> updateCitta(@PathVariable("idPrenotazione") long idPrenotazione, @RequestBody Prenotazione prenotazione) {
-//		try {
-//			Prenotazione result = prenotazioneService.updatePrenotazione(idPrenotazione, prenotazione);
-//
-//			if (prenotazione != null) {
-//				return new ResponseEntity<>(prenotazione, HttpStatus.OK);
-//
-//			} else {
-//				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//			}
-//		} catch (Exception e) {
-//			throw new WebServerException("Prenotazione not updated", e);
-//		}
-//
-//	}
+	@PostMapping("/prenotazione")
+	public ResponseEntity<Prenotazione> creaPrenotazione(@RequestBody Prenotazione prenotazione) {
+		try {
+			Prenotazione prenotazioneSalvata = prenotazioneService.prenotaPostazione(prenotazione.getUtente(),prenotazione.getPostazione(),prenotazione.getDataPrenotazione());
+			return new ResponseEntity<Prenotazione>(prenotazioneSalvata, HttpStatus.CREATED);
+		} catch (Exception e) {
+			throw new WebServerException("Prenotazione not saved", e);
+		}
+	}
+
+	@DeleteMapping("/prenotazione/{idPrenotazione}")
+	public ResponseEntity<Prenotazione> eliminaPrenotazione(@PathVariable(required = true) long idPrenotazione) {
+		prenotazioneService.deletePrenotazione(idPrenotazione);
+		return new ResponseEntity<Prenotazione>(HttpStatus.OK);
+	}
+
+
+	@PutMapping("/prenotazione/{idPrenotazione}")
+	public ResponseEntity<Prenotazione> updatePrenotazione(@PathVariable("idPrenotazione") long idPrenotazione, @RequestBody Prenotazione prenotazione) {
+		try {
+			Prenotazione result = prenotazioneService.updatePrenotazione(idPrenotazione, prenotazione);
+
+			if (prenotazione != null) {
+				return new ResponseEntity<>(result, HttpStatus.OK);
+
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			throw new WebServerException("Prenotazione not updated", e);
+		}
+
+	}
 
 }

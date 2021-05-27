@@ -22,13 +22,12 @@ public class PrenotazioneService {
 
 	@Autowired
 	PrenotazioneRepository pr;
-
+	
 	// restituisce true se postazione libera, altrimenti false
 	public boolean verificaPostazioneLibera(Postazione p, LocalDate ld) {
 		for (Prenotazione pr : p.getListaPrenotazioni()) {
 			if (pr.getDataPrenotazione().equals(ld))
 				return false;
-
 		}
 		return true;
 	}
@@ -36,7 +35,6 @@ public class PrenotazioneService {
 	// Restituisce true se l'utente non ha prenotato in quella giornata, altrimenti
 	// false
 	public boolean verificaUtenteLibera(Utente u, LocalDate ld) {
-
 		for (Prenotazione pr : u.getPrenotazioneUtente()) {
 			if (pr.getDataPrenotazione().equals(ld)) {
 				return false;
@@ -44,53 +42,37 @@ public class PrenotazioneService {
 		}
 		return true;
 	}
-
+	
 	public Prenotazione prenotaPostazione(Utente u, Postazione p, LocalDate ld) {
 		// sezione controlli
 		if (!verificaPostazioneLibera(p, ld)) {
-
 			return null;
 		}
 		if (!verificaUtenteLibera(u, ld)) {
 			return null;
 		}
-
 		// costruzione prenotazione regolare
 		Prenotazione prenotazione = new Prenotazione();
 		prenotazione.setDataPrenotazione(ld);
 		prenotazione.setPostazione(p);
 		prenotazione.setUtente(u);
-
 		Prenotazione prenotazioneSalvata = pr.save(prenotazione);
-
 		return prenotazioneSalvata;
-
 	}
-
 	public List<Prenotazione> getPrenotazioneServiceAll() {
 		return pr.findAll();
-
 	}
-
 	public Optional<Prenotazione> getById(long idprenotazione) {
 		return pr.findById(idprenotazione);
 	}
-
 	public Prenotazione updatePrenotazione(long idPrenotazione, Prenotazione prenotazione) {
-		//metodo nullo
-		
+	
 		return pr.save(prenotazione);
 	}
 
 	public void deletePrenotazione(long idPrenotazione) {
 		pr.deleteById(idPrenotazione);
-		
+
 	}
 
-	
-
-	
-
-	
-	}
-
+}

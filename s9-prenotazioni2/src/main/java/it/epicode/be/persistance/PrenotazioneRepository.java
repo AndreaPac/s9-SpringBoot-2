@@ -9,4 +9,6 @@ import it.epicode.be.model.Prenotazione;
 @Repository
 public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long> {
 
+	
+	
 }
