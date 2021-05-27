@@ -78,9 +78,10 @@ public class PrenotazioneService {
 
 	}
 
-	public Prenotazione prenotaPostazione(int idPostazione, long idUtente, int idData) {
+//	public Prenotazione prenotaPostazione(int idPostazione, long idUtente, int idData) {
+//		return pr.saveAll(idPostazione,idUtente,idData);
+//	}
 
-		return null;
-	}
+	
 
 }
