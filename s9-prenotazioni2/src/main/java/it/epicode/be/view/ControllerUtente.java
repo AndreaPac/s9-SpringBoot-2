@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.WebServerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ControllerUtente {
 	private UtenteService utenteService;
 	
 	@GetMapping("/UtenteFormatExample")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public Utente utenteFormat() {
 		Utente u = new Utente();
 		u.setId(1l);
@@ -40,6 +42,7 @@ public class ControllerUtente {
 	}
 
 	@GetMapping("/utente/allUtente")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<List<Utente>> getAllUtente() {
 		List<Utente> listaUtenti = utenteService.getUtenteAll();
 		ResponseEntity<List<Utente>> risposta = new ResponseEntity<>(listaUtenti, HttpStatus.OK);
@@ -49,6 +52,7 @@ public class ControllerUtente {
 	}
 
 	@GetMapping("/utente/{idutente}") 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Utente> getUtenteById(@PathVariable(required = true) long idUtente) {
 		Optional<Utente> utenteOpt = utenteService.getById(idUtente);
 		if (utenteOpt.isPresent()) {
@@ -60,6 +64,7 @@ public class ControllerUtente {
 	}
 
 	@PostMapping("/utente")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Utente> creaUtente(@RequestBody Utente utente) {
 		try {
 			Utente utenteSalvato = utenteService.creaUtente(utente);
@@ -70,6 +75,7 @@ public class ControllerUtente {
 	}
 
 	@DeleteMapping("/utente/{idUtente}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Utente> eliminaUtente(@PathVariable(required = true) long idUtente) {
 		utenteService.deleteUtente(idUtente);
 		return new ResponseEntity<Utente>(HttpStatus.OK);
@@ -77,6 +83,7 @@ public class ControllerUtente {
 
 
 	@PutMapping("/utente/{idutente}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Utente> updateUtente(@PathVariable("idUtente") long idUtente, @RequestBody Utente utente) {
 		try {
 			Utente result = utenteService.updateUtente(idUtente, utente);

@@ -2,6 +2,7 @@ package it.epicode.be.view;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class IstruzioniController {
 	private String inglese;
 
 	@GetMapping("istruzioni/{lingua}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public String getIstruzioni(@PathVariable String lingua) {
 		if (lingua.equals("italiano")) {
 			return italiano;

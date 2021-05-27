@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.WebServerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class ControllerPrenotazione {
 
 	@Autowired
 	private PrenotazioneService prenotazioneService;
-
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	@GetMapping("/prenotazioneFormatExample")
 	public Prenotazione prenotazioneFormat() {
 		Prenotazione p = new Prenotazione();
@@ -39,7 +40,7 @@ public class ControllerPrenotazione {
 		p.setDataPrenotata(LocalDate.now());
 		return p;
 	}
-
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	@GetMapping("/prenotazione/allprenotazione")
 	public ResponseEntity<List<Prenotazione>> GetAllprenotazione() {
 		List<Prenotazione> listaPrenotazione = prenotazioneService.getPrenotazioneServiceAll();
@@ -48,7 +49,7 @@ public class ControllerPrenotazione {
 		return risposta;
 
 	}
-
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	@GetMapping("/prenotazione/{idprenotazione}") 
 	public ResponseEntity<Prenotazione> getPrenotazioneById(@PathVariable(required = true) long idprenotazione) {
 		Optional<Prenotazione> prenotazioneOpt = prenotazioneService.getById(idprenotazione);
@@ -61,6 +62,7 @@ public class ControllerPrenotazione {
 	}
 
 	@PostMapping("/prenotazione")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Prenotazione> creaPrenotazione(@RequestBody Prenotazione prenotazione) {
 		try {
 			Prenotazione prenotazioneSalvata = prenotazioneService.prenotaPostazione(prenotazione.getUtente(),prenotazione.getPostazione(),prenotazione.getDataPrenotazione());
@@ -71,6 +73,7 @@ public class ControllerPrenotazione {
 	}
 
 	@DeleteMapping("/prenotazione/{idPrenotazione}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Prenotazione> eliminaPrenotazione(@PathVariable(required = true) long idPrenotazione) {
 		prenotazioneService.deletePrenotazione(idPrenotazione);
 		return new ResponseEntity<Prenotazione>(HttpStatus.OK);
@@ -78,6 +81,7 @@ public class ControllerPrenotazione {
 
 
 	@PutMapping("/prenotazione/{idPrenotazione}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Prenotazione> updatePrenotazione(@PathVariable("idPrenotazione") long idPrenotazione, @RequestBody Prenotazione prenotazione) {
 		try {
 			Prenotazione result = prenotazioneService.updatePrenotazione(idPrenotazione, prenotazione);
