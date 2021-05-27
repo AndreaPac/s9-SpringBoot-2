@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 @Data
 @Entity
@@ -24,6 +26,7 @@ public class Postazione {
 	@ManyToOne
 	private Edificio edificio;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "postazione")
 	private List<Prenotazione> listaPrenotazioni;
 }

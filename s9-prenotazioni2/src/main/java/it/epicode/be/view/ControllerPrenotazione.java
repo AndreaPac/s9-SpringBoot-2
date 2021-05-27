@@ -31,6 +31,7 @@ public class ControllerPrenotazione {
 
 	@Autowired
 	private PrenotazioneService prenotazioneService;
+
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	@GetMapping("/prenotazioneFormatExample")
 	public Prenotazione prenotazioneFormat() {
@@ -40,6 +41,7 @@ public class ControllerPrenotazione {
 		p.setDataPrenotata(LocalDate.now());
 		return p;
 	}
+
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	@GetMapping("/prenotazione/allprenotazione")
 	public ResponseEntity<List<Prenotazione>> GetAllprenotazione() {
@@ -49,8 +51,9 @@ public class ControllerPrenotazione {
 		return risposta;
 
 	}
+
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-	@GetMapping("/prenotazione/{idprenotazione}") 
+	@GetMapping("/prenotazione/{idprenotazione}")
 	public ResponseEntity<Prenotazione> getPrenotazioneById(@PathVariable(required = true) long idprenotazione) {
 		Optional<Prenotazione> prenotazioneOpt = prenotazioneService.getById(idprenotazione);
 		if (prenotazioneOpt.isPresent()) {
@@ -65,7 +68,8 @@ public class ControllerPrenotazione {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Prenotazione> creaPrenotazione(@RequestBody Prenotazione prenotazione) {
 		try {
-			Prenotazione prenotazioneSalvata = prenotazioneService.prenotaPostazione(prenotazione.getUtente(),prenotazione.getPostazione(),prenotazione.getDataPrenotazione());
+			Prenotazione prenotazioneSalvata = prenotazioneService.prenotaPostazione(prenotazione.getUtente(),
+					prenotazione.getPostazione(), prenotazione.getDataPrenotazione());
 			return new ResponseEntity<Prenotazione>(prenotazioneSalvata, HttpStatus.CREATED);
 		} catch (Exception e) {
 			throw new WebServerException("Prenotazione not saved", e);
@@ -79,10 +83,10 @@ public class ControllerPrenotazione {
 		return new ResponseEntity<Prenotazione>(HttpStatus.OK);
 	}
 
-
 	@PutMapping("/prenotazione/{idPrenotazione}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Prenotazione> updatePrenotazione(@PathVariable("idPrenotazione") long idPrenotazione, @RequestBody Prenotazione prenotazione) {
+	public ResponseEntity<Prenotazione> updatePrenotazione(@PathVariable("idPrenotazione") long idPrenotazione,
+			@RequestBody Prenotazione prenotazione) {
 		try {
 			Prenotazione result = prenotazioneService.updatePrenotazione(idPrenotazione, prenotazione);
 
@@ -98,4 +102,14 @@ public class ControllerPrenotazione {
 
 	}
 
+//	@PostMapping("/prenotazione2({idPostazione}/{idUtente}/{idData}")
+//	@PreAuthorize("hasRole('ADMIN')")
+//	public ResponseEntity<Prenotazione> creaPrenotazione2(@PathVariable int idPostazione,long idUtente, int idData) {
+//		try {
+//			Prenotazione prenotazioneSalvata = prenotazioneService.prenotaPostazione();
+//			return new ResponseEntity<Prenotazione>(prenotazioneSalvata, HttpStatus.CREATED);
+//		} catch (Exception e) {
+//			throw new WebServerException("Prenotazione not saved", e);
+//		}
+//	
 }
