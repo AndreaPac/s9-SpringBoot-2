@@ -1,8 +1,12 @@
 package it.epicode.be.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.epicode.be.model.Postazione;
 import it.epicode.be.model.Utente;
 import it.epicode.be.persistance.UtenteRepository;
 
@@ -11,29 +15,29 @@ public class UtenteService {
 
 	@Autowired
 	UtenteRepository ur;
+
 	
-	public void popolaUtenti() {
 
-		Utente u1 = new Utente();
-		u1.setMailUtente("lorenzo@gmail.com");
-		u1.setNomeCompleto("Lorenzo Giannini");
-		u1.setUserNomeUtente("LoreGian");
-		ur.save(u1);
+	
 
-		Utente u2 = new Utente();
-		u2.setMailUtente("michele@gmail.com");
-		u2.setNomeCompleto("Michele Franchi");
-		u2.setUserNomeUtente("Mike");
-		ur.save(u2);
+	public Optional<Utente> getById(Long idUtente) {
+		return ur.findById(idUtente);
+	}
 
-		Utente u3 = new Utente();
-		u3.setMailUtente("francesco@gmail.com");
-		u3.setNomeCompleto("Francesco Lorenzoni");
-		u3.setUserNomeUtente("Frattattack");
-		ur.save(u3);
+	public List<Utente> getUtenteAll() {
+		return ur.findAll();
+	}
+
+	public Utente creaUtente(Utente utente) {
+		return ur.save(utente);
+	}
+
+	public void deleteUtente(long idUtente) {
+		ur.deleteById(idUtente);
 
 	}
-	public Utente getById(Long id) {
-		return ur.getById(id);
+
+	public Utente updateUtente(long idUtente, Utente utente) {
+		return ur.save(utente);
 	}
 }

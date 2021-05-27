@@ -1,6 +1,5 @@
 package it.epicode.be.view;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import it.epicode.be.model.Citta;
 import it.epicode.be.service.CittaService;
 import lombok.extern.slf4j.Slf4j;
-
 
 @RestController
 @RequestMapping("/api")
@@ -67,16 +66,26 @@ public class ControllerCitta {
 	}
 
 	@DeleteMapping("/citta/{idCitta}")
-	public ResponseEntity<Citta> eliminaCitta(@PathVariable(required = true) long idCitta){
+	public ResponseEntity<Citta> eliminaCitta(@PathVariable(required = true) long idCitta) {
 		cittaService.deleteCitta(idCitta);
 		return new ResponseEntity<Citta>(HttpStatus.OK);
+	}
+	// da finire
 
-		//da finire
-		
-//	}
-//	
-//	@PutMapping("/citta/{idCitta}")
-//	public ResponseEntity<Citta> updateCitta(@PathVariable("idCitta"))
-//	
-}
+	@PutMapping("/citta/{idCitta}")
+	public ResponseEntity<Citta> updateCitta(@PathVariable("idCitta") long idCitta, @RequestBody Citta citta) {
+		try {
+			Citta result = cittaService.updateCitta(idCitta, citta);
+
+			if (citta != null) {
+				return new ResponseEntity<>(citta, HttpStatus.OK);
+
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			throw new WebServerException("User not updated", e);
+		}
+
+	}
 }

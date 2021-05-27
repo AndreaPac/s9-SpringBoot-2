@@ -1,7 +1,8 @@
 package it.epicode.be.service;
 
 import java.time.LocalDate;
-
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,9 +13,7 @@ import it.epicode.be.model.Prenotazione;
 import it.epicode.be.model.Utente;
 import it.epicode.be.persistance.PrenotazioneRepository;
 import it.epicode.be.persistance.UtenteRepository;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class PrenotazioneService {
 
@@ -29,13 +28,13 @@ public class PrenotazioneService {
 		for (Prenotazione pr : p.getListaPrenotazioni()) {
 			if (pr.getDataPrenotazione().equals(ld))
 				return false;
-			//cancella log se dà errori
-			log.info("***** POSTAZIONE GIà OCCUPATA NEL GIORNO " + ld + "*****");
+
 		}
 		return true;
 	}
 
-	// Restituisce true se l'utente non ha prenotato in quella giornata, altrimenti false
+	// Restituisce true se l'utente non ha prenotato in quella giornata, altrimenti
+	// false
 	public boolean verificaUtenteLibera(Utente u, LocalDate ld) {
 
 		for (Prenotazione pr : u.getPrenotazioneUtente()) {
@@ -67,4 +66,31 @@ public class PrenotazioneService {
 		return prenotazioneSalvata;
 
 	}
-}
+
+	public List<Prenotazione> getPrenotazioneServiceAll() {
+		return pr.findAll();
+
+	}
+
+	public Optional<Prenotazione> getById(long idprenotazione) {
+		return pr.findById(idprenotazione);
+	}
+
+	public Prenotazione updatePrenotazione(long idPrenotazione, Prenotazione prenotazione) {
+		//metodo nullo
+		
+		return pr.save(prenotazione);
+	}
+
+	public void deletePrenotazione(long idPrenotazione) {
+		pr.deleteById(idPrenotazione);
+		
+	}
+
+	
+
+	
+
+	
+	}
+

@@ -13,7 +13,9 @@ import it.epicode.be.model.Edificio;
 @Repository
 public interface EdificioRepository extends JpaRepository<Edificio, Long>{
 
-	public List<Edificio> findByCitta(Citta citta);
+	
+
+	
 
 	
 }
