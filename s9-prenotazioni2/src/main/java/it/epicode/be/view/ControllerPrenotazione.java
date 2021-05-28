@@ -113,17 +113,17 @@ public class ControllerPrenotazione {
 
 	}
 
-	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-	@GetMapping("/prenotazioneUtentiPerUserName")
-	public ResponseEntity<List<Prenotazione>> getPrenotazioniByUtente(@RequestHeader Map<String,String> headers){
-		String userName = jwtUtils.getUserNameFromJwtToken(headers.get("authorization").replace("Bearer ", ""));
-		Optional<Utente> u = us.getPrenotazioneByUsername(userName);
-		List<Prenotazione> listaPrenotazioni = u.get().getPrenotazioneUtente();
-		if(listaPrenotazioni.equals(null)) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<>(listaPrenotazioni, HttpStatus.OK);
-		}
-	}
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+//	@GetMapping("/prenotazioneUtentiPerUserName")
+//	public ResponseEntity<List<Prenotazione>> getPrenotazioniByUtente(@RequestHeader Map<String,String> headers){
+//		String userName = jwtUtils.getUserNameFromJwtToken(headers.get("authorization").replace("Bearer ", ""));
+//		Optional<Utente> u = us.getPrenotazioneByUsername(userName);
+//		List<Prenotazione> listaPrenotazioni = u.get().getPrenotazioneUtente();
+//		if(listaPrenotazioni.equals(null)) {
+//			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//		}else {
+//			return new ResponseEntity<>(listaPrenotazioni, HttpStatus.OK);
+//		}
+//	}
 	
 }

@@ -33,11 +33,19 @@ public class CittaService {
 
 	}
 
-	// da rivedere
-	public Citta updateCitta(long idCitta, Citta citta) {
-
+	public Citta updateCitta(Citta citta) {
 		return cr.save(citta);
-
+		
 	}
+
+//	// da rivedere
+//	public Citta updateCitta(long idCitta, Citta citta) {
+//		Optional<Citta> c = getById(idCitta);
+//		cr.delete(citta);
+//		return cr.save(citta);
+//	}
+
+
+
 
 }

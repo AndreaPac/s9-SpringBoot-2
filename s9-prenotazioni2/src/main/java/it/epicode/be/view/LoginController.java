@@ -36,7 +36,7 @@ public class LoginController {
 	JwtUtils jwtUtils;
 
 	@PostMapping("/login")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+	
 	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -53,7 +53,4 @@ public class LoginController {
 				userDetails.getEmail(), roles, userDetails.getExpirationTime()));
 	}
 	
-
-	
-
 }

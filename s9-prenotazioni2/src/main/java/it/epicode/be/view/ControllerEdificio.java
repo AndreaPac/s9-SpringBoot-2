@@ -85,10 +85,11 @@ public class ControllerEdificio {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Edificio> updateCitta(@PathVariable("idEdificio") long idEdificio, @RequestBody Edificio edificio) {
 		try {
+			//modificare result linea 92 con edificio
 			Edificio result = edificioService.updateEdificio(idEdificio, edificio);
 
 			if (edificio != null) {
-				return new ResponseEntity<>(edificio, HttpStatus.OK);
+				return new ResponseEntity<>(result, HttpStatus.OK);
 
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);

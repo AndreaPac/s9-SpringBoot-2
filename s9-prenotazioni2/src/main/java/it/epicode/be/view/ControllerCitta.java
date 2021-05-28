@@ -82,10 +82,10 @@ public class ControllerCitta {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Citta> updateCitta(@PathVariable("idCitta") long idCitta, @RequestBody Citta citta) {
 		try {
-			Citta result = cittaService.updateCitta(idCitta, citta);
+			Citta result = cittaService.updateCitta(citta);
 
 			if (citta != null) {
-				return new ResponseEntity<>(citta, HttpStatus.OK);
+				return new ResponseEntity<>(result, HttpStatus.OK);
 
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
