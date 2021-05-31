@@ -26,10 +26,10 @@ import it.epicode.be.service.UtenteService;
 @RestController
 @RequestMapping("/api")
 public class ControllerUtente {
-	
+
 	@Autowired
 	private UtenteService utenteService;
-	
+
 	@GetMapping("/UtenteFormatExample")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public Utente utenteFormat() {
@@ -51,7 +51,7 @@ public class ControllerUtente {
 
 	}
 
-	@GetMapping("/utente/{idutente}") 
+	@GetMapping("/utente/{idutente}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Utente> getUtenteById(@PathVariable(required = true) long idUtente) {
 		Optional<Utente> utenteOpt = utenteService.getById(idUtente);
@@ -81,7 +81,6 @@ public class ControllerUtente {
 		return new ResponseEntity<Utente>(HttpStatus.OK);
 	}
 
-
 	@PutMapping("/utente/{idutente}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Utente> updateUtente(@PathVariable("idUtente") long idUtente, @RequestBody Utente utente) {
@@ -89,7 +88,7 @@ public class ControllerUtente {
 			Utente result = utenteService.updateUtente(idUtente, utente);
 
 			if (utente != null) {
-				return new ResponseEntity<>(utente, HttpStatus.OK);
+				return new ResponseEntity<>(result, HttpStatus.OK);
 
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -101,5 +100,4 @@ public class ControllerUtente {
 	}
 
 	
-	}
-
+}

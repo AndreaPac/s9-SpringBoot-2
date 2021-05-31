@@ -16,32 +16,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.epicode.be.model.RegistrazioneUtente;
 import it.epicode.be.model.login.LoginRequest;
 import it.epicode.be.model.login.LoginResponse;
 import it.epicode.be.persistance.UtenteRepository;
 import it.epicode.be.security.JwtUtils;
 import it.epicode.be.security.service.UserDetailsImpl;
+import it.epicode.be.service.UtenteService;
 
 @RestController
 @RequestMapping("/api")
 public class LoginController {
 
 	@Autowired
-	UtenteRepository urenteRepository;
+	UtenteRepository utenteRepository;
 
 	@Autowired
 	AuthenticationManager authenticationManager;
+	
+	@Autowired
+	UtenteService utenteService;
 
 	@Autowired
 	JwtUtils jwtUtils;
 
 	@PostMapping("/login")
-	
-	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+
+	public ResponseEntity<LoginResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-		authentication.getAuthorities();
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 
@@ -52,5 +56,14 @@ public class LoginController {
 		return ResponseEntity.ok(new LoginResponse(jwt, userDetails.getId(), userDetails.getUsername(),
 				userDetails.getEmail(), roles, userDetails.getExpirationTime()));
 	}
-	
+
+	@PostMapping("/login/registrautente")
+	public RegistrazioneUtente registraUtente(@RequestBody RegistrazioneUtente registrazioneUtente) {
+
+		utenteService.registraUtente(registrazioneUtente);
+		
+		return registrazioneUtente;
+
+	}
+
 }
