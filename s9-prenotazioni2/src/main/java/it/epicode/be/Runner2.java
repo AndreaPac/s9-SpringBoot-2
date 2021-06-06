@@ -5,11 +5,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import it.epicode.be.model.Utente;
 import it.epicode.be.persistance.UtenteRepository;
 import it.epicode.be.service.UtenteService;
-
+@Component
 public class Runner2 implements CommandLineRunner{
 
 	@Autowired
@@ -27,7 +28,7 @@ public class Runner2 implements CommandLineRunner{
 //		codificaPassword(2l);
 //		
 //		
-		
+		//cicli su TUTTI gli utenti, se vedi che inizia con $2, cambia la password
 	}
 	public void codificaPassword(Long id) {
 		

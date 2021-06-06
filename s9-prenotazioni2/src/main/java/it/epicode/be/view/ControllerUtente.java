@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.epicode.be.model.Edificio;
-import it.epicode.be.model.Postazione;
-import it.epicode.be.model.TipoPostazione;
+
 import it.epicode.be.model.Utente;
 import it.epicode.be.service.UtenteService;
 
